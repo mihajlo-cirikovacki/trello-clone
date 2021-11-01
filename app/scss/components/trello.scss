@@ -24,14 +24,17 @@
 
 .trello {
   align-self: start;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   width: 80%;
 
+  // Phone:
+  @include respond('phone') {
+    grid-template-columns: 1fr;
+  }
+
   &__item {
-    max-width: 54rem;
-    width: 100%;
     background-image:linear-gradient(
       rgba(0,0,0, .4),
       rgba(0,0,0, .4)
@@ -63,6 +66,39 @@
     }
   }
 
+  &__todo-list {
+    list-style: none;
+  }
+
+  &__todo {
+    min-height: 11rem;
+    padding: 1rem .6rem;
+    background-color: #ebebeb;
+    border-radius: .9rem;
+  }
+
+  &__todo-text {
+    height: 100%;
+    width: 100%;
+    padding: 1rem .6rem 3rem;
+    border: none;
+    background-color: #fff;
+    border-radius: .9rem;
+    resize: none;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__todo-saved {
+    padding: 1rem;
+    font-size: 1.6rem;
+    background-color: #000;
+    border-radius: .9rem;
+  }
+
   &__buttons {
     display: flex;
   }
@@ -73,6 +109,8 @@
   }
 
   &__save-item {
+    display: none; 
+
     &--1 {
       background-color: #99661E;
     }

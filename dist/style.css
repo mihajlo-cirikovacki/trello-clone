@@ -68,6 +68,18 @@ h1 {
   color: #555;
 }
 
+.hidden {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+.todo-active {
+  order: 1;
+}
+
 .main {
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/assets/forest.jpg);
@@ -86,14 +98,17 @@ h1 {
 
 .trello {
   align-self: start;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   width: 80%;
 }
+@media (max-width: 37.5em) {
+  .trello {
+    grid-template-columns: 1fr;
+  }
+}
 .trello__item {
-  max-width: 54rem;
-  width: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
   padding: 0.8rem;
   border-radius: 0.9rem;
@@ -119,12 +134,43 @@ h1 {
 .trello__heading--4 {
   background-color: #BF400D;
 }
+.trello__todo-list {
+  list-style: none;
+}
+.trello__todo {
+  min-height: 11rem;
+  padding: 1rem 0.6rem;
+  background-color: #ebebeb;
+  border-radius: 0.9rem;
+}
+.trello__todo-text {
+  height: 100%;
+  width: 100%;
+  padding: 1rem 0.6rem 3rem;
+  border: none;
+  background-color: #fff;
+  border-radius: 0.9rem;
+  resize: none;
+  font-family: inherit;
+}
+.trello__todo-text:focus {
+  outline: none;
+}
+.trello__todo-saved {
+  padding: 1rem;
+  font-size: 1.6rem;
+  background-color: #000;
+  border-radius: 0.9rem;
+}
 .trello__buttons {
   display: flex;
 }
 .trello__add-item {
   align-self: flex-start;
   margin-right: auto;
+}
+.trello__save-item {
+  display: none;
 }
 .trello__save-item--1 {
   background-color: #99661E;

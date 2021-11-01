@@ -26,9 +26,17 @@
 
 
 
+.hidden {
+  display: none;
+}
 
+.active {
+  display: block;
+}
 
-
+.todo-active {
+  order: 1;
+}
 
 
 
