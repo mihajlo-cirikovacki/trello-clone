@@ -29,6 +29,12 @@
   gap: 2rem;
   width: 80%;
 
+  // Tab-Land:
+  @include respond('tab-land') {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
   // Phone:
   @include respond('phone') {
     grid-template-columns: 1fr;
