@@ -12,11 +12,6 @@
   background-color: transparent;
   color: #fff; 
   transition: all 400ms ease;
-
-  // &:hover {
-  //   background-color: #fff;
-  //   color: #555;
-  // }
 }
 
 .btn.hover.btn:hover { 
@@ -24,17 +19,11 @@
   color: #555;
 };
 
-
-
 .hidden {
   display: none;
 }
 
-.active {
-  display: block;
-}
-
-.todo-active {
+.first-in-order {
   order: 1;
 }
 

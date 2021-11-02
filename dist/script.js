@@ -1,8 +1,11 @@
 'use strict';
 
 const trello = document.querySelector('.trello');
-//const main = document.querySelector('.main');
+const todoLists = document.querySelectorAll('.trello__todo-list');
 
+let todoNum = 0;
+let startTodoNum;
+const todos = [];
 
 // ================== FUNCTIONS:
 
@@ -21,19 +24,17 @@ const renderTodo = function(todoList) {
   todo.insertAdjacentHTML('afterbegin', html);
 }
 
-
 // == Save Todo:
 const saveTodo = function(textareaValue, todoList) {
-  console.log(textareaValue);
-  console.log(todoList);
-
   // Create todo:
   const todo = document.createElement('li');
   todo.classList.add('trello__todo-saved');
+  todo.setAttribute('data-index', todoNum);
+  todo.draggable ="true";
   todoList.append(todo);
-
+  
   const html = `
-    <p>${textareaValue}</p>
+    <p draggable="true">${textareaValue}</p>
   `;
 
   // Add textarea:
@@ -41,11 +42,12 @@ const saveTodo = function(textareaValue, todoList) {
 
   // Delete text area:
   todo.previousElementSibling.remove();
+  todoNum++;
+  todos.push(todo);
 }
 
-
-
 // ================== EVENT LISTENERS:
+// == Add Todo:
 trello.addEventListener('click', (e) => {
   const addBtn = e.target.closest('.trello__add-item');
   if(!addBtn) return;
@@ -55,28 +57,70 @@ trello.addEventListener('click', (e) => {
   // Render Todo:
   renderTodo(todoList);
   addBtn.classList.toggle('hidden');
-  addBtn.nextElementSibling.style.display = 'block';
+  addBtn.nextElementSibling.classList.toggle('hidden');
   addBtn.nextElementSibling.style.marginLeft = 'auto';
-  todoList.classList.toggle('todo-active');
+  todoList.classList.toggle('first-in-order');
 });
 
-
+// == Save Todo:
 trello.addEventListener('click', (e) => {
   const saveBtn = e.target.closest('.trello__save-item');
   if(!saveBtn) return;
   const trelloItem = saveBtn.closest('.trello__item');
   const textarea = trelloItem.querySelector('.trello__todo-text');
   const todoList = trelloItem.querySelector('.trello__todo-list');
+  const addBtn = trelloItem.querySelector('.trello__add-item');
+  const buttons = trelloItem.querySelector('.trello__buttons');
   // Save Todo:
   saveTodo(textarea.value, todoList);
   // Delete button:
-  saveBtn.remove();
+  saveBtn.classList.toggle('hidden');
+  // Add add button:
+  addBtn.classList.toggle('hidden');
+  buttons.classList.add('first-in-order');
 });
 
+// ==================== DRAG AND DROP
 
+// == Swap:
+const swapTodos = function(startTodoNum, toTodoNum) {
+  const todoOne = todos[startTodoNum]//.closest('.trello__todo-saved');
+  const todoTwo = todos[toTodoNum]//.closest('.trello__todo-saved');
+  const todoOneLi = todoOne.closest('.trello__todo-list');
+  const todoTwoLi = todoTwo.closest('.trello__todo-list');
+  // Now swap in DOM:
+  todoOneLi.append(todoTwo);
+  todoTwoLi.append(todoOne);
+}
 
+// == Drag Start:
+const dragStart = function(todo) {
+  startTodoNum = +todo.getAttribute('data-index');
+}
 
+// == Drag Over:
+const dragOver = function(e) {
+  e.preventDefault(); 
+}
 
+// == Drag drop:
+const dragDrop = function() {
+  const toTodoNum = +this.querySelector('.trello__todo-saved').getAttribute('data-index');
+  swapTodos(startTodoNum, toTodoNum);
+}
+
+// == Drag and Drop:
+trello.addEventListener('dragstart', (e) => {
+  const todo = e.target.closest('.trello__todo-saved');
+  if(!todo) return;
+  dragStart(todo);
+});
+
+// ========== EVENT LISTENER:
+todoLists.forEach(todo => {
+  todo.addEventListener('dragover', dragOver);
+  todo.addEventListener('drop', dragDrop);
+})
 
 
 
