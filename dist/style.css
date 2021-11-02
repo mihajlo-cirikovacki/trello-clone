@@ -1,27 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-*,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: inherit;
-}
-
-html {
-  font-size: 62.5%;
-  font-family: "Roboto", sans-serif;
-}
-
-body {
-  box-sizing: border-box;
-}
-
-a,
-a:visited,
-a:active {
-  text-decoration: none;
-}
-
 /*
   0 - 600px:       Phone
   600 - 900px:     Tablet portrait
@@ -68,6 +45,47 @@ h1 {
   color: #555;
 }
 
+.hidden {
+  display: none;
+}
+
+.first-in-order {
+  order: 1;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: ) {
+  html {
+    font-size: 80%;
+  }
+}
+@media (min-width: 112.5em) {
+  html {
+    font-size: 80%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+}
+
+a,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
 .main {
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/assets/forest.jpg);
@@ -86,14 +104,23 @@ h1 {
 
 .trello {
   align-self: start;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   width: 80%;
 }
+@media (max-width: 75em) {
+  .trello {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+@media (max-width: 37.5em) {
+  .trello {
+    grid-template-columns: 1fr;
+  }
+}
 .trello__item {
-  max-width: 54rem;
-  width: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
   padding: 0.8rem;
   border-radius: 0.9rem;
@@ -118,6 +145,35 @@ h1 {
 }
 .trello__heading--4 {
   background-color: #BF400D;
+}
+.trello__todo-list {
+  list-style: none;
+}
+.trello__todo {
+  min-height: 11rem;
+  padding: 1rem 0.6rem;
+  background-color: #ebebeb;
+  border-radius: 0.9rem;
+}
+.trello__todo-text {
+  height: 100%;
+  width: 100%;
+  padding: 1rem 0.6rem 3rem;
+  border: none;
+  background-color: #fff;
+  border-radius: 0.9rem;
+  resize: none;
+  font-family: inherit;
+}
+.trello__todo-text:focus {
+  outline: none;
+}
+.trello__todo-saved {
+  padding: 1rem;
+  font-size: 1.6rem;
+  background-color: #000;
+  border-radius: 0.9rem;
+  margin-bottom: 0.8rem;
 }
 .trello__buttons {
   display: flex;

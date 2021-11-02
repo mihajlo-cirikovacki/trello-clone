@@ -1,3 +1,4 @@
+@use '../util' as *;
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 // ***** RESETS *****
@@ -13,6 +14,11 @@ html {
   // 1 rem = 10px > 10:16 = 0.625‬ > 62.5% 
   font-size: 62.5%;
   font-family: 'Roboto', sans-serif;
+
+   // Big Desktop:
+   @include respond('big-desktop') {
+    font-size: 80%;
+  }
 }
 
 body {
