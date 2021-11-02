@@ -9,6 +9,19 @@ const todos = [];
 
 // ================== FUNCTIONS:
 
+// == Add to local storage:
+const safeLocalTodos = function(todo) {
+  let todos;
+  
+  // Check:
+  if (!localStorage.getItem('todos')) todos = [];
+    else todos = JSON.parse(localStorage.getItem('todos'));
+
+  // If exist push:
+  todos.push(todo);
+  localStorage.setItem('todos', JSON.stringify(todos)); 
+}
+
 // == Render Todo:
 const renderTodo = function(todoList) {
   // Create todo element:
@@ -44,7 +57,22 @@ const saveTodo = function(textareaValue, todoList) {
   todo.previousElementSibling.remove();
   todoNum++;
   todos.push(todo);
+
+  // Safe local todos:
+  safeLocalTodos(textareaValue);
 }
+
+// == Get Todos from local storage:
+const getTodos = function() {
+  let todos;
+
+  // Check:
+  if (!localStorage.getItem('todos')) todos = [];
+    else todos = JSON.parse(localStorage.getItem('todos'));
+  
+  //console.log(todos);
+  //todos.forEach(todo => saveTodo(todo,));  
+};
 
 // ================== EVENT LISTENERS:
 // == Add Todo:
@@ -80,18 +108,11 @@ trello.addEventListener('click', (e) => {
   buttons.classList.add('first-in-order');
 });
 
-// ==================== DRAG AND DROP
+// == Get Todos from local storage:
+document.addEventListener('DOMContentLoaded', getTodos);
 
-// == Swap:
-const swapTodos = function(startTodoNum, toTodoNum) {
-  const todoOne = todos[startTodoNum]//.closest('.trello__todo-saved');
-  const todoTwo = todos[toTodoNum]//.closest('.trello__todo-saved');
-  const todoOneLi = todoOne.closest('.trello__todo-list');
-  const todoTwoLi = todoTwo.closest('.trello__todo-list');
-  // Now swap in DOM:
-  todoOneLi.append(todoTwo);
-  todoTwoLi.append(todoOne);
-}
+
+// ==================== DRAG AND DROP
 
 // == Drag Start:
 const dragStart = function(todo) {
@@ -103,25 +124,34 @@ const dragOver = function(e) {
   e.preventDefault(); 
 }
 
+// == Swap:
+const swapTodos = function(startTodoNum, toTodoNum) {
+  const todoOne = todos[startTodoNum];
+  const todoTwo = todos[toTodoNum];
+  const todoOneLi = todoOne.closest('.trello__todo-list');
+  const todoTwoLi = todoTwo.closest('.trello__todo-list');
+  // Now swap in DOM:
+  todoOneLi.append(todoTwo);
+  todoTwoLi.append(todoOne);
+}
+
 // == Drag drop:
 const dragDrop = function() {
   const toTodoNum = +this.querySelector('.trello__todo-saved').getAttribute('data-index');
   swapTodos(startTodoNum, toTodoNum);
 }
 
-// == Drag and Drop:
+// ========== EVENT LISTENERS:
 trello.addEventListener('dragstart', (e) => {
   const todo = e.target.closest('.trello__todo-saved');
   if(!todo) return;
   dragStart(todo);
 });
 
-// ========== EVENT LISTENER:
 todoLists.forEach(todo => {
   todo.addEventListener('dragover', dragOver);
   todo.addEventListener('drop', dragDrop);
 })
-
 
 
 
